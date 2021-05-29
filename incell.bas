@@ -2,16 +2,15 @@ Attribute VB_Name = "Module1"
 Option Explicit
 
 Function incell(analyzed_cell As Range)
+
 Dim regex As Object, eachcell, rangeobj As Object
 Dim indcol As New Collection
 Dim operators As Object, operator
 Dim i As Integer, j As Integer
-Dim mainict As Object, arraydict As Object
+Dim maindict As Object, arraydict As Object
 Dim midstr As String, refmidstr As String, midtxt As String
 
-j = 1
-
-Set mainict = CreateObject("Scripting.Dictionary")
+Set maindict = CreateObject("Scripting.Dictionary")
 Set arraydict = CreateObject("Scripting.Dictionary")
 
 Set regex = CreateObject("VBScript.RegExp")
@@ -56,16 +55,15 @@ textval:
             midtxt = refmidstr
         End If
         
-    mainict.Add i, Left(midstr, 1) & midtxt
+    maindict.Add i, Left(midstr, 1) & midtxt
 
 Next i
 
-incell = Join(mainict.items, "")
+incell = Join(maindict.items, "")
 
 Set rangeobj = Nothing
-Set analyzed_cell = Nothing
-Set mainict = Nothing
+Set maindict = Nothing
 Set arraydict = Nothing
 Set regex = Nothing
-
+    
 End Function
