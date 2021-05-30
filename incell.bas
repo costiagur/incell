@@ -23,6 +23,8 @@ For Each operator In operators
     indcol.Add operator.firstindex
 Next
 
+If indcol.count = 0 Then indcol.Add 0 'in case there is nothing except the first "=", assume it to be 0
+                    
 If indcol(indcol.Count) < Len(analyzed_cell.Formula) Then indcol.Add Len(analyzed_cell.Formula)
 
 For i = 1 To indcol.count - 1
