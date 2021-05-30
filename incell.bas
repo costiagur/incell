@@ -25,37 +25,37 @@ Next
 
 If indcol(indcol.Count) < Len(analyzed_cell.Formula) Then indcol.Add Len(analyzed_cell.Formula)
 
-For i = 1 To indcol.Count - 1
+For i = 1 To indcol.count - 1
     midstr = Mid(analyzed_cell.Formula, indcol(i) + 1, indcol(i + 1) - indcol(i))
     refmidstr = Mid(midstr, 2, Len(midstr) - 1)
     midtxt = ""
-    If refmidstr = "" Then GoTo textval
-    Err.Clear
     
     On Error Resume Next
-        Set rangeobj = Range(refmidstr)
+        Set rangeobj = Range(refmidstr) 'in case of error, will return Nothing or previous value (which is set to nothing in code below)
         
-        If IsArray(rangeobj.Value) Then
-            j = 1
-            For Each eachcell In rangeobj
-                arraydict.Add j, IIf(eachcell.NumberFormat = "General", eachcell.Value, Format(eachcell.Value, eachcell.NumberFormat))
-                j = j + 1
-            Next
-            
-            midtxt = Join(arraydict.items, ",")
-            arraydict.RemoveAll
-        
-        Else
-            midtxt = IIf(rangeobj.NumberFormat = "General", rangeobj.Value, Format(rangeobj.Value, rangeobj.NumberFormat))
-        
-        End If
-                
-textval:
-        If Err.Number = 1004 Then
+        If rangeobj Is Nothing Then
             midtxt = refmidstr
+        Else
+        
+            If IsArray(rangeobj.Value) Then
+                j = 1
+                For Each eachcell In rangeobj
+                    arraydict.Add j, IIf(eachcell.NumberFormat = "General", eachcell.Value, format(eachcell.Value, eachcell.NumberFormat))
+                    j = j + 1
+                Next
+                
+                midtxt = Join(arraydict.items, ",")
+                arraydict.RemoveAll
+            
+            Else
+                midtxt = IIf(rangeobj.NumberFormat = "General", rangeobj.Value, format(rangeobj.Value, rangeobj.NumberFormat))
+            
+            End If
         End If
         
-    maindict.Add i, Left(midstr, 1) & midtxt
+    maindict.Add i, left(midstr, 1) & midtxt
+    Set rangeobj = Nothing 'required to clear existing, otherwise will not return to nothing in the set above
+    Err.Clear
 
 Next i
 
