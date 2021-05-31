@@ -42,7 +42,13 @@ For i = 1 To indcol.count - 1
             If IsArray(rangeobj.Value) Then
                 j = 1
                 For Each eachcell In rangeobj
-                    arraydict.Add j, IIf(eachcell.NumberFormat = "General", eachcell.Value, format(eachcell.Value, eachcell.NumberFormat))
+                    Select Case eachcell.NumberFormat
+                        Case "General"
+                            arraydict.Add j, eachcell.Value
+                        Case Else
+                            arraydict.Add j, format(eachcell.Value, eachcell.NumberFormat)
+                    End Select
+
                     j = j + 1
                 Next
                 
@@ -50,8 +56,12 @@ For i = 1 To indcol.count - 1
                 arraydict.RemoveAll
             
             Else
-                midtxt = IIf(rangeobj.NumberFormat = "General", rangeobj.Value, format(rangeobj.Value, rangeobj.NumberFormat))
-            
+                Select Case rangeobj.NumberFormat
+                    Case "General"
+                        midtxt = rangeobj.Value
+                    Case Else
+                        midtxt = format(rangeobj.Value, rangeobj.NumberFormat)
+                End Select
             End If
         End If
         
