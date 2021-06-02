@@ -32,6 +32,12 @@ For i = 1 To indcol.count - 1
     refmidstr = Mid(midstr, 2, Len(midstr) - 1)
     midtxt = ""
     
+    If InStr(1, refmidstr, "[@") > 0 Then 'if reference is part of list
+        midtxt = Replace(refmidstr, "@", "[#Headers],[") & "]" 'get address of the table header above the referenced cell
+        refmidstr = Range(midtxt).Offset(analyzed_cell.Row() - Range(midtxt).Row(), 0).Address 'get the address relative to the analyzed cell        
+        midtxt = ""
+    End If
+    
     On Error Resume Next
         Set rangeobj = Range(refmidstr) 'in case of error, will return Nothing or previous value (which is set to nothing in code below)
         
