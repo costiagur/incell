@@ -33,7 +33,7 @@ For i = 1 To indcol.count - 1
     midtxt = ""
     
     If InStr(1, refmidstr, "[@") > 0 Then 'if reference is part of list
-        midtxt = Replace(refmidstr, "@", "[#Headers],[") & "]" 'get address of the table header above the referenced cell
+        midtxt = Replace(refmidstr, "@", "[#Headers],") 'get address of the table header above the referenced cell
         refmidstr = Range(midtxt).Offset(analyzed_cell.Row() - Range(midtxt).Row(), 0).Address 'get the address relative to the analyzed cell        
         midtxt = ""
     End If
