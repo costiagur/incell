@@ -14,7 +14,7 @@ Set maindict = CreateObject("Scripting.Dictionary")
 Set arraydict = CreateObject("Scripting.Dictionary")
 
 Set regex = CreateObject("VBScript.RegExp")
-regex.Pattern = "[\+\-=/\*\(\)]"
+regex.Pattern = "[\+\-=/\*\(\),]"
 regex.Global = True
 
 Set operators = regex.Execute(analyzed_cell.Formula)
