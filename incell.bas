@@ -36,6 +36,13 @@ For i = 1 To indcol.count - 1
         midtxt = Replace(refmidstr, "@", "[#Headers],") 'get address of the table header above the referenced cell
         refmidstr = Range(midtxt).Offset(analyzed_cell.Row() - Range(midtxt).Row(), 0).Address 'get the address relative to the analyzed cell        
         midtxt = ""
+        
+        If InStr(1, refmidstr, "[@") > 0 Then 'if cell with formula is insite the list, lists name doesn't appear
+            listtxt = Replace(refmidstr, "[@", analyzed_cell.ListObject.Name & "[[#Headers],[") 'get address of the table header above the referenced cell
+            listtxt = listtxt & "]"
+            refmidstr = Range(listtxt).Offset(analyzed_cell.Row() - Range(listtxt).Row(), 0).Address
+        End If
+                        
     End If
     
     On Error Resume Next
