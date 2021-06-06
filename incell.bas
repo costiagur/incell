@@ -14,7 +14,7 @@ Set maindict = CreateObject("Scripting.Dictionary")
 Set arraydict = CreateObject("Scripting.Dictionary")
 
 Set regex = CreateObject("VBScript.RegExp")
-regex.Pattern = "[^a-zA-Z0-9!$#(\[#Totals\],)(@[\s??):\[\]_]"
+regex.Pattern = "[\+\-=/\*\(\)]"
 regex.Global = True
 
 Set operators = regex.Execute(analyzed_cell.Formula)
