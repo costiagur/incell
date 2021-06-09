@@ -8,7 +8,7 @@ Dim indcol As New Collection
 Dim operators As Object, operator
 Dim i As Integer, j As Integer
 Dim maindict As Object, arraydict As Object
-Dim midstr As String, refmidstr As String, midtxt As String
+Dim midstr As String, refmidstr As String, midtxt As String, listtxt as String
 
 Set maindict = CreateObject("Scripting.Dictionary")
 Set arraydict = CreateObject("Scripting.Dictionary")
