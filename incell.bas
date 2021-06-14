@@ -8,13 +8,13 @@ Dim indcol As New Collection
 Dim operators As Object, operator
 Dim i As Integer, j As Integer
 Dim maindict As Object, arraydict As Object
-Dim midstr As String, refmidstr As String, midtxt As String, listtxt as String
+Dim midstr As String, refmidstr As String, midtxt As String
 
 Set maindict = CreateObject("Scripting.Dictionary")
 Set arraydict = CreateObject("Scripting.Dictionary")
 
 Set regex = CreateObject("VBScript.RegExp")
-regex.Pattern = "[\+\-=/\*\(\),]"
+regex.Pattern = "[\+\-=/\*\(\),<>]"
 regex.Global = True
 
 Set operators = regex.Execute(analyzed_cell.Formula)
@@ -33,16 +33,15 @@ For i = 1 To indcol.count - 1
     midtxt = ""
     
     If InStr(1, refmidstr, "[@") > 0 Then 'if reference is part of list
-        midtxt = Replace(refmidstr, "@", "[#Headers],") 'get address of the table header above the referenced cell
-        refmidstr = Range(midtxt).Offset(analyzed_cell.Row() - Range(midtxt).Row(), 0).Address 'get the address relative to the analyzed cell        
-        midtxt = ""
-        
-        If InStr(1, refmidstr, "[@") > 0 Then 'if cell with formula is insite the list, lists name doesn't appear
-            listtxt = Replace(refmidstr, "[@", analyzed_cell.ListObject.Name & "[[#Headers],[") 'get address of the table header above the referenced cell
-            listtxt = listtxt & "]"
-            refmidstr = Range(listtxt).Offset(analyzed_cell.Row() - Range(listtxt).Row(), 0).Address
+        If analyzed_cell.ListObject Is Nothing Then 'if analyzed cell is not in listobject
+            midtxt = Replace(refmidstr, "@", "[#Headers],") 'get address of the table header above the referenced cell
+        Else
+            midtxt = Replace(refmidstr, "[@", analyzed_cell.ListObject.Name & "[[#Headers],") 'get address of the table header above the referenced cell
         End If
-                        
+        
+        refmidstr = Range(midtxt).Offset(analyzed_cell.Row() - Range(midtxt).Row(), 0).Address 'get the address relative to the analyzed cell
+        midtxt = ""
+
     End If
     
     On Error Resume Next
