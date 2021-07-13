@@ -16,7 +16,7 @@ Set maindict = CreateObject("Scripting.Dictionary")
 Set arraydict = CreateObject("Scripting.Dictionary")
 
 Set Regex = CreateObject("VBScript.RegExp")
-Regex.pattern = "[\+\-=/\*\(\),<>]"
+Regex.pattern = "[\+\-=/\*\(\),<>&]"
 Regex.Global = True
 
 Set operators = Regex.Execute(analyzed_cell.Formula)
@@ -55,7 +55,7 @@ For i = 1 To indcol.count - 1
         midtxt = getpivotdataval(leftstr)
         
         'now we need to skip all the mathches inside GETPIVOTDATA function
-        Regex.pattern = "[\+\-=/\*\(\),<>]"
+        Regex.pattern = "[\+\-=/\*\(\),<>&]"
         Regex.Global = True
         
         Set pivMatches = Regex.Execute(leftstr)
