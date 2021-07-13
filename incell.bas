@@ -83,6 +83,17 @@ For i = 1 To indcol.count - 1
 
     End If
     
+     If InStr(1, refmidstr, "[#Totals]") > 0 Then 'if reference is part of totals of the list
+        j = InStr(indcol(i) + 1, analyzed_cell.Formula, "]]")
+        midstr = Mid(analyzed_cell.Formula, indcol(i) + 1, j - indcol(i) + 1)
+        refmidstr = Trim(Mid(midstr, 2, Len(midstr) - 1))
+
+        refmidstr = Range(refmidstr).Address
+        
+        i = i + 1 'move i forward to skip next [
+
+    End If                       
+                            
     On Error Resume Next
         Set rangeobj = Range(refmidstr)
         
