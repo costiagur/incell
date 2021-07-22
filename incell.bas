@@ -172,6 +172,26 @@ For Each eachMatch In MatchRes
 
 Next
 
-getpivotdataval = Evaluate("=GetPivotData" & resstring)
+With Regex
+    .pattern = "[\(\)]"
+    .Global = True
+    .IgnoreCase = True
+End With
+
+Set MathesBrackets = Regex.Execute(inistring)
+
+If MathesBrackets.count Mod 2 <> 0 Then 'if num of closing brackets <> opening brackets than there is extra closing bracket that should be removed
+    resstring = Mid(resstring, 1, Len(resstring) - 1)
+    
+    getpivotdataval = Evaluate("=GetPivotData" & resstring) & ")"
+    
+Else
+    getpivotdataval = Evaluate("=GetPivotData" & resstring)
+
+End If
+
+Set MatchRes = Nothing
+Set Regex = Nothing
+Set MathesBrackets = Nothing
 
 End Function
